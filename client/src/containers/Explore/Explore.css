@@ -1,0 +1,19 @@
+.explore_container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  width: 90%;
+  margin: 10% auto;
+  justify-content: center;
+  grid-gap: 5%;
+  height: 100%;
+}
+
+@media (max-width: 500px) {
+  .explore_container {
+    display: grid;
+    grid-gap: 2%;
+    grid-template-columns: 1fr;
+    margin: 20% auto;
+    width: 90%;
+  }
+}

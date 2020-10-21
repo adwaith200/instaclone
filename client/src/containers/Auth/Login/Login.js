@@ -1,7 +1,9 @@
 import React, { PureComponent } from 'react';
 import classes from './Login.css';
 import axios from '../../../axios';
-import {Redirect} from 'react-router-dom';
+import {connect} from 'react-redux'
+import {Redirect,Link} from 'react-router-dom';
+import * as actions from '../../../store/actions/indexActions'
 
 
 class Login extends PureComponent {
@@ -11,7 +13,6 @@ class Login extends PureComponent {
                 username:null,
                 password:null,
         },
-        userId:null
       }
       
       inputChangedHandler=(e,id)=>{
@@ -29,18 +30,12 @@ class Login extends PureComponent {
     
       onSubmitHandler=async(e)=>{
         e.preventDefault();
-        try{
-          const credentials={
-            ...this.state.credentials
-          }
-          const response=await axios.post('auth/login/',credentials);
-          console.log(response,"anagha");
-          this.setState({userId:response.data})
-          localStorage.setItem('token',response.data.key);
-        //  this.props.history.push('/home')
-        }catch(err){
-          console.log(err.response)
-        }
+        const credentials={...this.state.credentials};
+        this.props.onSubmitAuth(credentials,"login");
+      }
+
+      componentWillMount (){
+        console.log(this.props.userKey,"Login compo")
       }
     
     render() {
@@ -63,19 +58,32 @@ class Login extends PureComponent {
                 <small>Error message</small>
                 </div>
                 <button type="submit">Submit</button>
+                <Link to='/signup' style={{marginTop:"10px",color:"blue",display:"block"}}>Don't have an account ?</Link>
           </form>
             </div>
         );
-
-        if(this.state.userId)
-            component=<Redirect to='/home' />
-
+        if(this.props.userKey)
+        {   
+            component=<Redirect to='/' />
+        }
         return (
             <div>
                 {component}
             </div>
         )
-    }
+    } 
 }
 
-export default Login
+const mapStateToProps=(state)=>{
+  return {
+    userKey:state.auth.userKey
+  }
+}
+
+const mapDispatchToProps=(dispatch)=>{
+  return {
+    onSubmitAuth:(credentials)=>dispatch(actions.authInit(credentials,"login"))
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Login);

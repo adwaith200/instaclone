@@ -1,6 +1,9 @@
 import React, { PureComponent } from 'react'
 import classes from './style.css';
 import axios from '../../../axios';
+import {Redirect} from 'react-router-dom';
+import {connect} from 'react-redux';
+import * as actions from '../../../store/actions/indexActions';
 
 class SignUp extends PureComponent {
 
@@ -11,7 +14,6 @@ class SignUp extends PureComponent {
             password1:null,
             password2:null,
     },
-    userId:null
   }
   
 
@@ -39,22 +41,11 @@ class SignUp extends PureComponent {
 
   onSubmitHandler=async(e)=>{
     e.preventDefault();
-    try{
-      const credentials={
-        ...this.state.credentials
-      }
-      const response=await axios.post('auth/registration/',credentials);
-      console.log(response);
-      this.setState({userId:response.data})
-      localStorage.setItem('token',response.data);
-      // this.props.history.push('/home');
-    }catch(err){
-      console.log(err.message)
-    }
+    console.log("Signing up");
+    this.props.onSubmitAuth(this.state.credentials);
   }
 
   render() {
-    console.log(this.state.userId)
     return (
       <div className={classes.container}>
           <form id="form" className={classes.form} onSubmit={this.onSubmitHandler}>
@@ -96,4 +87,16 @@ class SignUp extends PureComponent {
   }
 }
 
-export default SignUp;
+const mapStateToProps=(state)=>{
+  return {
+    userKey:state.auth.userKey
+  }
+}
+
+const mapDispatchToProps=(dispatch)=>{
+  return {
+    onSubmitAuth:(credentials)=>dispatch(actions.authInit(credentials,"signup"))
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(SignUp);

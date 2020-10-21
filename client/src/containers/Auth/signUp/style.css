@@ -102,14 +102,14 @@ h2 {
   width: 100%;
 }
 
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 450px) {
   .container {
     width: 320px;
-    margin: 5% auto;
+    margin: 30% auto;
   }
 }
 
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 450px) {
   .form_control {
     margin-bottom: 5px;
     padding-bottom: 10px;
