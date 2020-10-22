@@ -8,6 +8,7 @@ import Home from './containers/Home/Home';
 import {Route,Switch,Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import Explore from './containers/Explore/Explore';
+import Profile from './containers/Profile/Profile';
 
 
 class App extends Component {
@@ -26,6 +27,7 @@ class App extends Component {
           <Route path='/login'  component={Login} />  
           <Route path='/' exact component={Home} />
           <Route path='/explore' exact component={Explore} />
+          <Route path='/profile' exact component={Profile} />
           <Redirect to='/' />
         </Switch> 
         )

@@ -21,7 +21,8 @@ class Home extends PureComponent {
                     headers:{
                         "Authorization":'Token'+' '+localStorage.getItem('token')
                 }
-            });
+            }
+        );
         this.setState({loading:false})
             console.log(response);
             this.setState({posts:response.data.data})
@@ -32,8 +33,7 @@ class Home extends PureComponent {
     }
 
     render() {
-        // let posts=<Spinner />;
-        let posts;
+        let posts=<Spinner />;
         console.log("posts")
         if(this.state.posts!==null){
             if(this.state.posts.length===0){

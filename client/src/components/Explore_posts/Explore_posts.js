@@ -6,7 +6,6 @@ class Explore_posts extends PureComponent {
     render() {
         console.log("explore post")
         return (
-           
                 <div className={classes.explore_post}>
                     <div className={classes.profile_link_container}>
                         <div className={classes.profile_pic}>
