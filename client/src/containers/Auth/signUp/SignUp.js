@@ -34,14 +34,12 @@ class SignUp extends PureComponent {
       credentials.password2=e.target.value;
     }
 
-    console.log(credentials)
 
     this.setState({credentials})
   }
 
   onSubmitHandler=async(e)=>{
     e.preventDefault();
-    console.log("Signing up");
     this.props.onSubmitAuth(this.state.credentials);
   }
 

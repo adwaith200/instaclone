@@ -24,7 +24,6 @@ class Login extends PureComponent {
         else {
           credentials.password=e.target.value;
         }
-        console.log(credentials,"anagha")
         this.setState({credentials})
       }
     
