@@ -15,15 +15,17 @@ export const authSucess=(userKey)=>{
     }
 }
 
+export const authLogout=()=>{
+    localStorage.removeItem('token');
+}
+
 export const authInit=(credentials,authType)=>{
-    console.log("authInit")
     return async(dispatch)=>{
         dispatch(authStart()); 
         
         if(authType==="login"){
             try{
                 const response=await axios.post('auth/login/',credentials);
-                console.log(response,"login data");
                 localStorage.setItem('token',response.data.key);
                 dispatch(authSucess(response.data.key))
             }catch(err){
@@ -33,12 +35,11 @@ export const authInit=(credentials,authType)=>{
         else {
             try{
                 const response=await axios.post('auth/registration/',credentials);
-                console.log(response,"Signup data");
                 localStorage.setItem('token',response.data.key);
                 dispatch(authSucess(response.data.key))
-              }catch(err){
+            }catch(err){
                 console.log(err.response)
-              }  
+            }  
         }
 
     }

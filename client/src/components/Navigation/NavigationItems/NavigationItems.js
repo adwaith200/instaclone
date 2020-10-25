@@ -17,7 +17,7 @@ const NavigationItems=(props)=> {
                     <footer className={classes.footer}>
                     <a href='/' ><FontAwesomeIcon icon='search' className={classes.icon_styling}/></a> 
                             <Link to='/' ><FontAwesomeIcon icon='home' className={classes.icon_styling}/></Link>
-                            <Link to='/profile' ><FontAwesomeIcon icon='compass' className={classes.icon_styling}/></Link>
+                            <Link to='/explore' ><FontAwesomeIcon icon='compass' className={classes.icon_styling}/></Link>
                             <Link to='/profile' ><FontAwesomeIcon icon='user' className={classes.icon_styling}/></Link>
                     </footer>
                 </nav>

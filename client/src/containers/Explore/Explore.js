@@ -13,7 +13,6 @@ class Explore extends PureComponent {
     async componentDidMount(){
             try{
                 const response=await axios.get('api/posts/');
-                console.log(response,"response of explore");
                 this.setState({posts:response.data})
 
             }catch(err){
@@ -24,11 +23,10 @@ class Explore extends PureComponent {
     render() {
         let posts;
         if(this.state.posts.length){
-            console.log("if")
          posts=(
                 this.state.posts.map((post)=>{
                     return <Explore_posts profile_pic={post.user.profilepic} post_img={post.photo} 
-                     profile_link={post.user.username}   />
+                     profile_link={post.user.username}  key={post.id} />
                 })
         )
             }

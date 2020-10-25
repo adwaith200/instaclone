@@ -1,7 +1,8 @@
 import React from 'react';
 import classes from './Profile.css';
 import {connect} from 'react-redux';
-import axios from "../../axios"
+import axios from "../../axios";
+import {Link} from 'react-router-dom';
 
 class Profile extends React.Component {
 
@@ -29,7 +30,6 @@ class Profile extends React.Component {
                     } 
                 }
             );
-            console.log(response);
             this.setState({user:{
                 userId:response.data.user.id,
                 userBio:response.data.user.bio,
@@ -39,10 +39,8 @@ class Profile extends React.Component {
 
             //getting user posts
             const result=await axios.get(`api/users/${this.state.user.userId}/getprofilepostsandfollowers`);
-            console.log(result,"result")
             const posts=result.data.posts;
             const followers=result.data.followers;
-            console.log(posts)
 
             this.setState({
                         posts,
@@ -68,8 +66,10 @@ class Profile extends React.Component {
                 <div className={classes.profile_info}>
                     <div className={classes.name_update_container}>
                         <div className={classes.username}>{this.state.user.username}</div>
-                        <button className={classes.btn_editprofile}>Edit Profile</button>
-                        <button className={classes.btn_logout}>Logout</button>
+                        <div className={classes.buttons}>
+                            <div><Link to='/edit-profile' className={classes.btn_editprofile}>Edit Profile</Link></div>
+                            <div><Link to='/logout' className={classes.btn_logout}>Logout</Link></div>
+                        </div>
                     </div>
                     <div className={classes.social_details}>
                         <div className={classes.total_posts}>{this.state.posts?this.state.posts.length:0} posts</div>
@@ -80,17 +80,16 @@ class Profile extends React.Component {
                         Bio - {this.state.user.userBio}
                     </div>
                     :
-                     <div className={classes.bio} style={{fontSize:"20px"}}>
+                    <div className={classes.bio} style={{fontSize:"20px"}}>
                         Complete your profile by adding bio
                     </div>
                     }
                 </div>
             </div>
             <h1 className={classes.heading}>Posts</h1>
+            <Link to='/upload-post' className={classes.addPost}>Add post +</Link>
             <div className={classes.posts}>
-                {console.log(this.state.posts)}
                 {this.state.posts?this.state.posts.map(post=>{
-                    console.log(post,"post")
                     return (
                         <div className={classes.post} key={post.id}>
                             <img 

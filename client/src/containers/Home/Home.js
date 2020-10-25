@@ -24,7 +24,6 @@ class Home extends PureComponent {
             }
         );
         this.setState({loading:false})
-            console.log(response);
             this.setState({posts:response.data.data})
 
         }catch(err){
@@ -34,10 +33,8 @@ class Home extends PureComponent {
 
     render() {
         let posts=<Spinner />;
-        console.log("posts")
         if(this.state.posts!==null){
             if(this.state.posts.length===0){
-                console.log(0);
                posts=(<div className={classes.no_followers_container}>
                    <p>YOU DON'T FOLLOW ANYONE</p>
                    <div>
