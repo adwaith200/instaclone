@@ -17,6 +17,9 @@ export const authSucess=(userKey)=>{
 
 export const authLogout=()=>{
     localStorage.removeItem('token');
+    return {
+        type:actionTypes.AUTH_LOGOUT
+    }
 }
 
 export const authInit=(credentials,authType)=>{

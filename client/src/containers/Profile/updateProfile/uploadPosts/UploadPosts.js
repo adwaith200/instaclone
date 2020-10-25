@@ -47,7 +47,7 @@ class UploadPosts extends PureComponent {
         let tags="";
         form_data.append('photo', this.state.photo);
 
-        if(tags===null)
+        if(this.state.tags===null)
             form_data.append('tags', "");
         else {
             console.log(this.state.tags)
@@ -59,6 +59,7 @@ class UploadPosts extends PureComponent {
                         "Authorization":`Token ${this.props.userKey}`
                     }
                 });
+                form_data.append('tags',tags)
                 console.log(response,"created tag");
                 tags=`${response.data.id}`
             }

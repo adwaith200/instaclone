@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import './components/FontAwesomeIcons/Icons'
 import axios from './axios';
 import Layout from './hoc/Layout/Layout';
-import SignUp from "./containers/Auth/Signup/Signup";
 import Login from './containers/Auth/Login/Login';
+import SignUp from "./containers/Auth/signUp/SignUp";
 import Home from './containers/Home/Home';
 import {Route,Switch,Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';

@@ -17,30 +17,26 @@ class PostTagSerializer(serializers.ModelSerializer):
         model=Post
         fields=['id','photo','location','caption','user']
 
-from posts.models import Post
+# from posts.models import Post
 
  
 
 # Used for adding posts for a particular tag
 
-class PostTagSerializer(serializers.ModelSerializer):
+# class PostTagSerializer(serializers.ModelSerializer):
 
-    class Meta:
+#     class Meta:
 
-        model=Post
+#         model=Post
 
-        fields=['id','photo','location','caption','user']
+#         fields=['id','photo','location','caption','user']
 
  
 
 class TagSerializer(serializers.ModelSerializer):
-<<<<<<< HEAD
-    posts=PostTagSerializer(many=True,read_only=True)
-=======
 
     posts=PostTagSerializer(many=True,read_only=True)
 
->>>>>>> 47f6af80c8d15cc5d8efb3ff7c52fe66eded8680
     class Meta:
 
         model=Tag 
