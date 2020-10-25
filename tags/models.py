@@ -6,3 +6,6 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.tagname
+    
+    class Meta:
+        unique_together = (('tagname'),)

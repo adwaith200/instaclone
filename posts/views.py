@@ -25,10 +25,9 @@ class PostViewSet(viewsets.ModelViewSet):
         user=User.objects.get(id=userid)
         post=Post.objects.create(photo=data["photo"],location=data["location"],caption=data["caption"],user=user)
         post.save()
-        # print(data['tags'])
-        for tag in data['tags']:
-            newtag=int(tag)
-            tagobj=Tag.objects.get(id=newtag)
+        if data['tags']!='':
+            tagid=int(data['tags'])
+            tagobj=Tag.objects.get(id=tagid)
             post.tags.add(tagobj)
         serializer=PostSerializer(post,many=False)
         return Response(serializer.data)

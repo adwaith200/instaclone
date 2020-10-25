@@ -13,4 +13,5 @@ class TagViewSet(viewsets.ModelViewSet):
     ] 
     serializer_class=TagSerializer
     filter_backends=[DjangoFilterBackend,SearchFilter]
+    filter_fields=['tagname']
     search_fields=['tagname']
