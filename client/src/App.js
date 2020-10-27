@@ -8,7 +8,8 @@ import Home from './containers/Home/Home';
 import {Route,Switch,Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import Explore from './containers/Explore/Explore';
-import Profile from './containers/Profile/Profile';
+import LoggedInProfile from './containers/LoggedInProfile/LoggedInProfile'
+import UserProfile from './containers/UserProfile/UserProfile'
 import updateProfile from './containers/Profile/updateProfile/updateProfile';
 import * as actions from './store/actions/indexActions';
 import UploadPost from './containers/Profile/updateProfile/uploadPosts/UploadPosts';
@@ -16,9 +17,17 @@ import Logout from './containers/Auth/Logout/Logout';
 
 class App extends Component {
 
-  async componentDidMount(){
+  async componentWillMount(){
     if(localStorage.getItem('token')){
-        this.props.onSubmitAuth(localStorage.getItem('token'));
+        const result=await axios.get('api/users/getloggedinprofile',
+          {
+              headers:{
+                  "Authorization":'Token'+' '+localStorage.getItem('token')
+          } 
+        })
+
+      this.props.onSubmitAuth(localStorage.getItem('token'),result.data.user.id);
+
     }
   }
 
@@ -36,7 +45,8 @@ class App extends Component {
           <Route path='/login'  component={Login} />  
           <Route path='/' exact component={Home} />
           <Route path='/explore'  component={Explore} />
-          <Route path='/profile'  component={Profile} />
+          <Route path='/profile'  component={LoggedInProfile} />
+          <Route path='/user-profile/:userId'  component={UserProfile} />
           <Route path='/edit-profile' component={updateProfile} />
           <Route path='/upload-post' component={UploadPost} /> 
           <Route path='/logout' component={Logout} /> 
@@ -64,7 +74,7 @@ const mapStateToProps=(state)=>{
 
 const mapDispatchToProps=(dispatch)=>{
   return {
-    onSubmitAuth:(key)=>dispatch(actions.authSucess(key))
+    onSubmitAuth:(key,userId)=>dispatch(actions.authSucess(key,userId))
   }
 }
 

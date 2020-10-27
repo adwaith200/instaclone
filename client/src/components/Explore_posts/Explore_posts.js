@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
-import classes from '../../components/Explore_posts/Explore.css'
+import classes from '../../components/Explore_posts/Explore.css';
+import {Link} from 'react-router-dom';
 
 class Explore_posts extends PureComponent {
     
@@ -11,7 +12,7 @@ class Explore_posts extends PureComponent {
                             <img src={this.props.profile_pic} 
                             className={classes.pic}/>                         
                         </div>
-                        <div className={classes.profile_link}>{this.props.profile_link}</div>
+                        <Link to={`/user-profile/${this.props.user_id}`}className={classes.profile_link}>{this.props.profile_link}</Link>
                     </div>
                     <div className={classes.image_container}>
                     <img src={this.props.post_img}

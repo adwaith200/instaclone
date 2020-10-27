@@ -3,38 +3,61 @@ import Post from '../../components/Post/Post';
 import axios from '../../axios';
 import Spinner from '../../UI/Spinner/Spinner';
 import {Link} from 'react-router-dom';
-import classes from './Home.css'
+import classes from './Home.css';
+import {connect} from 'react-redux';
+import * as actions from '../../store/actions/indexActions';
 
 class Home extends PureComponent {
 
     state={
-        posts:null,
-        loading:false
+        // posts:null,
+        loading:false,
+        userId:null,
+        liked:false,
+        showComments:false
     }
 
     async componentDidMount(){
         try{
             this.setState({loading:true})
-            console.log('Token'+' '+localStorage.getItem('token'),"anagha")
-            const response=await axios.get('api/posts/userfollowingposts',
-            {
-                    headers:{
-                        "Authorization":'Token'+' '+localStorage.getItem('token')
-                }
+            this.props.fetchPosts(this.props.userKey);
+            const result=await axios.get('api/users/getloggedinprofile',{
+                headers:{
+                    "Authorization":'Token'+' '+this.props.userKey
             }
-        );
-        this.setState({loading:false})
-            this.setState({posts:response.data.data})
-
+            })
+            this.setState({loading:false,userId:result.data.user.id})
         }catch(err){
             console.log(err.msg)
         }
     }
 
+    likedHandler=async(id)=>{
+        console.log("liked");
+        try{
+            const response=await axios.post(`api/posts/${id}/likepost/`,null,
+            {
+                headers:{
+                        "Authorization":'Token'+' '+this.props.userKey
+                } 
+            });        
+            console.log(response);
+            this.props.fetchPosts(this.props.userKey)
+            this.setState({liked:true})
+        }catch(err){
+        console.log(err.response);
+    }
+    }
+
+    showCommentsHandler=()=>{
+        this.setState({showComments:!this.state.showComments})
+    }
+
     render() {
+        console.log(this.state)
         let posts=<Spinner />;
-        if(this.state.posts!==null){
-            if(this.state.posts.length===0){
+        if(this.props.posts!==null){
+            if(this.props.posts.length===0){
                posts=(<div className={classes.no_followers_container}>
                    <p>YOU DON'T FOLLOW ANYONE</p>
                    <div>
@@ -43,10 +66,16 @@ class Home extends PureComponent {
                </div>);
             }
             else {
-                    posts=this.state.posts.map(post=>{
-                    return <Post key={post.id} image={`http://localhost:8000${post.photo}`} profilePic={`http://localhost:8000${post.user.profilepic}`}
-                    userName={post.user.username} comments={post.comments.length} num_likes={post.likes.length}
-                    date={post.created_at}/>
+                    console.log(this.props.posts);
+                    posts=this.props.posts.map(post=>{
+                    return <Post key={post.id} image={`http://localhost:8000${post.photo}`} 
+                    profilePic={`http://localhost:8000${post.user.profilepic}`}
+                    userName={post.user.username} comments={post.comments} num_likes={post.likes.length}
+                    date={post.created_at} liked={()=>this.likedHandler(post.id)}
+                    showComments={this.state.showComments} 
+                    showCommentHandler={this.showCommentsHandler}
+                    post_id={post.id}
+                    user_id={post.user.id}/>
                 })
             }
         }
@@ -59,4 +88,17 @@ class Home extends PureComponent {
     }
 }
 
-export default Home
+const mapStateToProps=(state)=>{
+    return {
+        userKey:state.auth.userKey,
+        posts:state.post.posts
+    }
+}
+
+const mapDispatchToProps=(dispatch)=>{
+    return {
+        fetchPosts:(userKey)=>dispatch(actions.fetchPosts(userKey))
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Home);

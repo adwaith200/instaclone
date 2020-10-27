@@ -47,8 +47,8 @@
 
 .addPost {
   /* position: absolute;
-  bottom: 11px;
-  right: -4px; */
+    bottom: 11px;
+    right: -4px; */
   background-color: #3498db;
   color: white;
   display: block;
@@ -71,7 +71,7 @@
 
 .name_update_container {
   /* display: flex;
-  justify-content: space-between; */
+    justify-content: space-between; */
   /* background-color: cornflowerblue; */
   padding: 10px;
   font-weight: bold;

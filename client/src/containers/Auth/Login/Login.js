@@ -33,9 +33,6 @@ class Login extends PureComponent {
         this.props.onSubmitAuth(credentials,"login");
       }
 
-      componentWillMount (){
-        console.log(this.props.userKey,"Login compo")
-      }
     
     render() {
 

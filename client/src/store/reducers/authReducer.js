@@ -3,11 +3,11 @@ import * as actionTypes from '../actions/actionTypes';
 const initialState={
     userKey:null,
     loading:false,
-    error:null
+    error:null,
+    userId:null
 }
 
 const reducer=(state=initialState,action)=>{
-
     switch(action.type){
         case actionTypes.AUTH_START:{
             return {
@@ -19,7 +19,8 @@ const reducer=(state=initialState,action)=>{
             return {
                 ...state,
                 loading:false,
-                userKey:action.userKey
+                userKey:action.userKey,
+                userId:action.userId
             }
         }
        

@@ -26,7 +26,7 @@ class Explore extends PureComponent {
          posts=(
                 this.state.posts.map((post)=>{
                     return <Explore_posts profile_pic={post.user.profilepic} post_img={post.photo} 
-                     profile_link={post.user.username}  key={post.id} />
+                     profile_link={post.user.username}  key={post.id} user_id={post.user.id}/>
                 })
         )
             }
