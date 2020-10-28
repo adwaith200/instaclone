@@ -83,7 +83,7 @@ class Profile extends React.Component {
                     )
                 }):null}
             </div>
-           {this.props.match.params.userId!==this.props.userId?<Redirect to={`/user-profile/${this.props.match.params.userId}`} />:null}
+           {/* {this.props.match.params.userId!==this.props.userId?<Redirect to={`/user-profile/${this.props.match.params.userId}`} />:null} */}
         </div>
     )
     

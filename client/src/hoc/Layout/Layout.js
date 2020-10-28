@@ -57,7 +57,7 @@ class Layout extends PureComponent {
                 </header>
                 {this.state.search===true?<Modal show={this.state.show} closeModal={this.closeModal}>
                     {this.state.users.map(user=>{
-                        return <User user={user}  closeModal={this.closeModal}/>
+                        return <User user={user} closeModal={this.closeModal}/>
                     })}
                 </Modal>:null}
                 <main>

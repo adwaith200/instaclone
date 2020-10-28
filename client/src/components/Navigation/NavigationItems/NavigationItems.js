@@ -13,7 +13,7 @@ const NavigationItems=(props)=> {
                     <div className={classes.header_nav}>
                         <Link to='/' ><FontAwesomeIcon icon='home' className={classes.icon_styling}/></Link>
                         <Link to='/explore' ><FontAwesomeIcon icon='compass' className={classes.icon_styling}/></Link>
-                        <Link to={`/profile/${props.userId}`} >
+                        <Link to={'/profile'} >
                             {props.userKey===null?
                             <FontAwesomeIcon icon='user' className={classes.icon_styling}/>:
                             <div>
@@ -25,7 +25,7 @@ const NavigationItems=(props)=> {
                             <a href='/' ><FontAwesomeIcon icon='search' className={classes.icon_styling}/></a> 
                             <Link to='/' ><FontAwesomeIcon icon='home' className={classes.icon_styling}/></Link>
                             <Link to='/explore' ><FontAwesomeIcon icon='compass' className={classes.icon_styling}/></Link>
-                            <Link to={`/profile/${props.userId}`} >
+                            <Link to={'/profile'} >
                                 {props.userKey===null?
                                 <FontAwesomeIcon icon='user' className={classes.icon_styling}/>:
                                 <div>

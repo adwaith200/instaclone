@@ -7,6 +7,9 @@
     import Profile from '../Profile/Profile'
     
     class LoggedInProfile extends React.Component {
+
+        _isMounted = false;
+
     
         state={
             user:{
@@ -27,6 +30,7 @@
             //getting the user data
            
             try{
+                this._isMounted=true;
                 const response=await axios.get('api/users/getloggedinprofile',
                         {
                             headers:{
@@ -34,26 +38,31 @@
                         } 
                     }
                 );
-    
-                this.setState({user:{
+
+                console.log(response.data.user.id,"log in")
+
+                if(this._isMounted=true){
+                this.setState({...this.state,user:{...this.state.user,
                     userId:response.data.user.id,
                     userBio:response.data.user.bio,
                     username:response.data.user.username,
                     userDp:response.data.user.profilepic
                 }})
-    
+            }
+
+                console.log(this.state);
                 //getting user posts
                 const result=await axios.get(`api/users/${this.state.user.userId}/getprofilepostsandfollowers`);
                 const posts=result.data.posts;
                 const followers=result.data.followers;
     
-                this.setState({
+                this.setState({...this.state,
                             posts,
                             followers      
                 })
     
             }catch(err){
-                console.log(err.response);
+                console.log(err.response,"error");
             }
        
             

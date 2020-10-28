@@ -47,7 +47,7 @@ class App extends Component {
           <Route path='/' exact component={Home} />
           <Route path='/explore'  component={Explore} />
           <Route path='/profile'  component={LoggedInProfile} />
-          <Route path='/user-profile/:userId'  component={UserProfile} />
+          <Route path='/user-profile/:userId'   component={UserProfile} />
           <Route path='/edit-profile' component={updateProfile} />
           <Route path='/upload-post' component={UploadPost} /> 
           <Route path='/logout' component={Logout} /> 
