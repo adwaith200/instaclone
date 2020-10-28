@@ -34,8 +34,7 @@ class UpdateProfile extends PureComponent {
     }
 
     onNameChange=async (e)=>{
-        console.log(e.target.value);
-        console.log()
+       
         this.setState({user:{...this.state.user,username:e.target.value}})
     }
     onFirstNameChange=async (e)=>{
@@ -84,8 +83,9 @@ class UpdateProfile extends PureComponent {
                 } ,
                 
             });
-            console.log(response);
+            window.location.reload();
             this.props.history.push('/profile');
+
     }
     catch(err){
         console.log(err.response);
@@ -93,7 +93,6 @@ class UpdateProfile extends PureComponent {
     }
 
     render() {
-        console.log(this.state,'teststate');
         return (
             <form className={classes.pro_container} onSubmit={this.onSubmitHandler}>
                 <h3>Update My profile</h3>

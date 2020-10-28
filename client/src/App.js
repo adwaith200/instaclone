@@ -14,6 +14,7 @@ import updateProfile from './containers/Profile/updateProfile/updateProfile';
 import * as actions from './store/actions/indexActions';
 import UploadPost from './containers/Profile/updateProfile/uploadPosts/UploadPosts';
 import Logout from './containers/Auth/Logout/Logout';
+import Blank from './components/Blank/Blank';
 
 class App extends Component {
 
@@ -50,6 +51,7 @@ class App extends Component {
           <Route path='/edit-profile' component={updateProfile} />
           <Route path='/upload-post' component={UploadPost} /> 
           <Route path='/logout' component={Logout} /> 
+          <Route path='/blank/:userId' component={Blank} />
           <Redirect to='/' />
         </Switch> 
         )

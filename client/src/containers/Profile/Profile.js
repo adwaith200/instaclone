@@ -1,7 +1,7 @@
 import React from 'react';
 import classes from './Profile.css';
 import {connect} from 'react-redux';
-import {Link} from 'react-router-dom';
+import {Link,Redirect,withRouter} from 'react-router-dom';
 import Modal from '../../components/UI/Modal/Modal';
 import Post from '../../components/Post/Post';
 
@@ -83,7 +83,7 @@ class Profile extends React.Component {
                     )
                 }):null}
             </div>
-           
+           {this.props.match.params.userId!==this.props.userId?<Redirect to={`/user-profile/${this.props.match.params.userId}`} />:null}
         </div>
     )
     
@@ -101,4 +101,4 @@ const mapStateToProps=(state)=>{
 
 
 
-export default connect(mapStateToProps,null)(Profile);
+export default connect(mapStateToProps,null)(withRouter(Profile));

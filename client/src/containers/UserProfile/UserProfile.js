@@ -19,37 +19,47 @@ class UserProfile extends React.Component {
         followers:null,
         showModal:false,
         postId:null,
-        post:null
+        post:null,
+        mounted:false,
+        canupdate:true
 
     }
 
     async componentDidMount(){
-        //getting the user data
-        try{
-            const userId=this.props.match.params.userId*1;
-            const response=await axios.get(`api/users/${userId}`);
-                this.setState({user:{
+          //getting the user data
+          try{
+              const userId=this.props.match.params.userId*1;
+              const response=await axios.get(`api/users/${userId}`);
+
+                //getting user posts
+                const result=await axios.get(`api/users/${userId}/getprofilepostsandfollowers`);
+                const posts=result.data.posts;
+                const followers=result.data.followers;
+            
+                this.setState({
+                    ...this.state,
+                    posts:posts,
+                    followers:followers ,
+                    mounted:true ,
+                    user:{...this.state.user,
                     userId:response.data.id,
                     userBio:response.data.bio,
                     username:response.data.username,
                     userDp:response.data.profilepic
-                }})
-
-                //getting user posts
-                const result=await axios.get(`api/users/${this.state.user.userId}/getprofilepostsandfollowers`);
-                const posts=result.data.posts;
-                const followers=result.data.followers;
-
-                this.setState({
-                            posts,
-                            followers      
+                    }, 
+                  
                 })
+
+              
             }catch(err){
-                console.log(err.response);
+                console.log(err.response,"error");
             }
-        
     }
+
+   
+
     
+   
     
    
     showModalHandler=async(id)=>{
@@ -62,8 +72,9 @@ class UserProfile extends React.Component {
         }
     }
 
+
     render(){
-        console.log("UserProfile")
+      
         
     return (
         <Profile state={this.state} showModalHandler={this.showModalHandler}/>

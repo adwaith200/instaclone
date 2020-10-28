@@ -33,7 +33,6 @@ class Home extends PureComponent {
     }
 
     likedHandler=async(id)=>{
-        console.log("liked");
         try{
             const response=await axios.post(`api/posts/${id}/likepost/`,null,
             {
@@ -41,7 +40,6 @@ class Home extends PureComponent {
                         "Authorization":'Token'+' '+this.props.userKey
                 } 
             });        
-            console.log(response);
             this.props.fetchPosts(this.props.userKey)
             this.setState({liked:true})
         }catch(err){
@@ -54,7 +52,6 @@ class Home extends PureComponent {
     }
 
     render() {
-        console.log(this.state)
         let posts=<Spinner />;
         if(this.props.posts!==null){
             if(this.props.posts.length===0){
@@ -66,7 +63,6 @@ class Home extends PureComponent {
                </div>);
             }
             else {
-                    console.log(this.props.posts);
                     posts=this.props.posts.map(post=>{
                     return <Post key={post.id} image={`http://localhost:8000${post.photo}`} 
                     profilePic={`http://localhost:8000${post.user.profilepic}`}

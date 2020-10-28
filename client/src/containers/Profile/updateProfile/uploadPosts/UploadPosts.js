@@ -50,9 +50,7 @@ class UploadPosts extends PureComponent {
         if(this.state.tags===null)
             form_data.append('tags', "");
         else {
-            console.log(this.state.tags)
             const result=await axios.get(`api/tags?tagname=${this.state.tags}`);
-            console.log(result.data.length);
             if(result.data.length===0){
                 const response=await axios.post(`api/tags/`,{tagname:this.state.tags},{
                     headers:{
@@ -60,13 +58,10 @@ class UploadPosts extends PureComponent {
                     }
                 });
                 form_data.append('tags',tags)
-                console.log(response,"created tag");
                 tags=`${response.data.id}`
             }
             else{
-                console.log(result,"result");
                 tags=`${result.data[0].id}`
-                console.log(tags);
                 form_data.append('tags',tags)
             }
         }
@@ -79,7 +74,6 @@ class UploadPosts extends PureComponent {
 
         // const post={...this.state.post};
         // const posts={...this.state.posts.push(post)};
-        console.log({...this.state},"new posts");
 
         try{
             const response=await axios.post(`api/posts/`,form_data,
@@ -90,7 +84,6 @@ class UploadPosts extends PureComponent {
                 } ,
                 
             });
-            console.log(response);
             this.props.history.push('/profile');
     }
     catch(err){
@@ -99,7 +92,6 @@ class UploadPosts extends PureComponent {
     }
 
     render() {
-        console.log(this.state);
         return (
             <form className={classes.pro_container} onSubmit={this.onSubmitHandler}>
                 <h3>Upload Post</h3>

@@ -5,7 +5,6 @@ import classes from './Modal.css';
 // import Backdrop from '../Backdrop/Backdrop';
 
 class Modal extends Component {
-
     
     render () {
         return (
@@ -18,7 +17,7 @@ class Modal extends Component {
                     }}
                     >
                     <div onClick={this.props.closeModal}>
-                    <FontAwesomeIcon icon='times' className={classes.icon_styling}/>
+                        <FontAwesomeIcon icon='times' className={classes.icon_styling}/>
                     </div>
                     <div className={classes.post_container}>{this.props.children}</div>
                 </div>

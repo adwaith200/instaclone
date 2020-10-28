@@ -16,14 +16,12 @@ class Post extends PureComponent {
 
 
     commentChangedHandler=(e)=>{
-        console.log(e.target.value)
 
         this.setState({comment:e.target.value})
     }
 
     postCommentHandler=async(id)=>{
         try{
-            console.log(id);
             const response=await axios.post('api/comments/',{
             "comment_text":this.state.comment,
             "post_id":id
@@ -32,7 +30,6 @@ class Post extends PureComponent {
                 "Authorization":'Token'+' '+this.props.userKey
         } 
         })
-        console.log(response);
         this.props.fetchPosts(this.props.userKey);
 
     }catch(err){

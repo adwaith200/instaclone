@@ -2,13 +2,13 @@
   overflow: scroll;
 } */
 
-.comment_container {
+.userSearch_container {
   box-shadow: 4px 4px 2px #eee;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 15px;
-  margin: 10px;
+  margin: 5%;
 }
 
 .user_container {
@@ -28,11 +28,21 @@
   border-radius: 50%;
 }
 
-/* .username {
+@media (max-width: 1080px) {
+  .userSearch_container {
+    margin: 10%;
+  }
 }
 
-.comment_text {
+.username {
+  text-decoration: none;
+  font-family: "pacifico", cursive;
+  color: black;
+  font-size: 20px;
 }
 
-.date {
-} */
+/*.comment_text {
+  }
+  
+  .date {
+  } */
