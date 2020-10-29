@@ -6,6 +6,7 @@ import Modal from '../../components/UI/Modal/Modal';
 import Post from '../../components/Post/Post';
 import axios from '../../axios';
 import Follower from '../../components/Followers/Follower';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 class Profile extends React.Component {
 
@@ -131,6 +132,11 @@ class Profile extends React.Component {
       }
   }
 
+
+  deletePost=async(postId)=>{
+      const response=await axios.delete(`api/posts/${postId}`)
+  }
+
     render(){ 
         console.log("render")       
     return (
@@ -210,9 +216,13 @@ class Profile extends React.Component {
             <div className={classes.posts}>
                 {this.props.state.posts?this.props.state.posts.map(post=>{
                     return (
-                        <div className={classes.post} key={post.id} onClick={()=>this.props.showModalHandler(post.id)}>
+                        <div className={classes.post} key={post.id}>
+                            {this.props.getLoggedIn===true?
+                            <FontAwesomeIcon icon='trash' className={classes.delete_icon} 
+                            onClick={()=>this.props.deletePost(post.id)}/>:null}
                             <img 
                                 src={`http://localhost:8000${post.photo}`} 
+                                onClick={()=>this.props.showModalHandler(post.id)}
                             className={classes.img}/>
                         </div>
                     )

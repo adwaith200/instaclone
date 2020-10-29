@@ -12,12 +12,18 @@ class Layout extends PureComponent {
         profilePic:null,
         search:false,
         show:false,
-        users:null
+        users:null,
+        footerSearch:false
 
     }
 
     closeModal=()=>{
+        console.log("Closing...")
         this.setState({show:!this.state.show})
+    }
+
+    askToSearch=()=>{
+        this.setState({footerSearch:!this.state.footerSearch})
     }
     
 
@@ -53,9 +59,12 @@ class Layout extends PureComponent {
                     <NavigationItems userId={this.props.userId} 
                     userKey={this.props.userKey} 
                     image={this.state.profilePic}
-                    searchChangeHandler={this.searchChangeHandler}/>
+                    searchChangeHandler={this.searchChangeHandler}
+                    askToSearch={this.askToSearch}
+                    footerSearch={this.state.footerSearch}/>
                 </header>
-                {this.state.search===true?<Modal show={this.state.show} closeModal={this.closeModal}>
+                {this.state.search===true?
+                <Modal show={this.state.show} closeModal={this.closeModal}>
                     {this.state.users.length!==0?this.state.users.map(user=>{
                         return <User user={user} closeModal={this.closeModal}/>
                     }):<h1 style={{textAlign:"center"}}>NO USERS FOUND FOR THAT USERNAME</h1>}

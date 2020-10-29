@@ -4,6 +4,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Link} from 'react-router-dom';
 
 const NavigationItems=(props)=> {
+    console.log(props.footerSearch);
     return (
         <header>
               <nav className={classes.header}>
@@ -22,7 +23,14 @@ const NavigationItems=(props)=> {
                         </Link>
                     </div>
                     <footer className={classes.footer}>
-                            <a href='/' ><FontAwesomeIcon icon='search' className={classes.icon_styling}/></a> 
+                            <div onClick={props.askToSearch}>
+                                <FontAwesomeIcon icon='search' className={classes.icon_styling}/>
+                            </div>
+                            {props.footerSearch===true?<div>
+                                <input type='text' placeholder="search" className={classes.search_bar} 
+                                defaultValue="" onKeyPress={props.searchChangeHandler} 
+                                style={{display:"block",visibility:"visible",marginRight:"0"}}/>
+                            </div>:null}
                             <Link to='/' ><FontAwesomeIcon icon='home' className={classes.icon_styling}/></Link>
                             <Link to='/explore' ><FontAwesomeIcon icon='compass' className={classes.icon_styling}/></Link>
                             <Link to={'/profile'} >

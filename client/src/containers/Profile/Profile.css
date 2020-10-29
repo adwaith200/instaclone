@@ -74,6 +74,13 @@
   width: 20%;
 }
 
+.delete_icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: white;
+}
+
 .profile_info {
   width: 50%;
   /* background-color: coral; */
@@ -160,6 +167,7 @@
 .post {
   height: 100%;
   object-fit: cover;
+  position: relative;
 }
 
 .img {

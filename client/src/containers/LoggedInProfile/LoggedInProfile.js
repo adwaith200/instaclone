@@ -66,7 +66,20 @@
             
         }
         
-        
+        deletePost=async(postId)=>{
+            const response=await axios.delete(`api/posts/${postId}`,
+            {
+                headers:{
+                    "Authorization":'Token'+' '+this.props.userKey
+            } 
+        });
+            console.log(response,"deleted");
+            const result=await axios.get
+            (`api/users/${this.state.user.userId}/getprofilepostsandfollowers`);
+            this.setState({...this.state,posts:result.data.posts});
+
+
+        }
        
         showModalHandler=async(id)=>{
             if(id){
@@ -80,7 +93,7 @@
     
         render(){
             
-        return <Profile state={this.state} showModalHandler={this.showModalHandler} getLoggedIn/>
+        return <Profile state={this.state} deletePost={this.deletePost} showModalHandler={this.showModalHandler} getLoggedIn/>
             
         }
     }

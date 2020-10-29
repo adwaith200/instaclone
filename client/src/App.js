@@ -51,7 +51,7 @@ class App extends Component {
           <Route path='/edit-profile' component={updateProfile} />
           <Route path='/upload-post' component={UploadPost} /> 
           <Route path='/logout' component={Logout} /> 
-          <Route path='/blank/:userId' component={Blank} />
+          <Route path='/blank/:userId' component={() =><Blank userId={this.props.userId}/>} />
           <Redirect to='/' />
         </Switch> 
         )
@@ -70,7 +70,8 @@ class App extends Component {
 
 const mapStateToProps=(state)=>{
     return {
-      userKey:state.auth.userKey
+      userKey:state.auth.userKey,
+      userId:state.auth.userId
     }
 }
 

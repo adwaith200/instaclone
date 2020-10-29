@@ -33,6 +33,7 @@ class Home extends PureComponent {
     }
 
     likedHandler=async(id)=>{
+       
         try{
             const response=await axios.post(`api/posts/${id}/likepost/`,null,
             {
@@ -41,10 +42,11 @@ class Home extends PureComponent {
                 } 
             });        
             this.props.fetchPosts(this.props.userKey)
-            this.setState({liked:true})
+            this.setState({liked:!this.state.liked})
         }catch(err){
-        console.log(err.response);
-    }
+            console.log(err.response)
+        }
+        
     }
 
     showCommentsHandler=()=>{

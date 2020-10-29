@@ -1,12 +1,19 @@
 import React from 'react';
-import {Redirect} from 'react-router-dom';
+import {Redirect,withRouter} from 'react-router-dom';
 
-function Blank(props) {
+class Blank extends React.PureComponent {
+    render(){
+        console.log(this.props)
+        console.log(this.props.userId,this.props.match.params.userId);
     return (
         <div>
-            <Redirect to={`/user-profile/${props.match.params.userId}`} />
+            {this.props.userId!==this.props.match.params.userId*1?
+            <Redirect to={`/user-profile/${this.props.match.params.userId}`} />:
+            <Redirect to='/profile'/>
+        }
         </div>
     )
+    }
 }
 
-export default Blank;
+export default withRouter(Blank);
