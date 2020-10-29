@@ -15,7 +15,6 @@ const User=(props)=> {
                   <Link to={`/blank/${props.user.id}`} className={classes.username} onClick={props.closeModal}>{props.user.username}</Link>
                 </div>
                 {props.user.bio ? <div className={classes.comment_text}>{props.user.bio}</div>:null}
-                <div className={classes.date}> 10 th</div>
             </div>
         </div>
         

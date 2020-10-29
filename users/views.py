@@ -67,4 +67,19 @@ class UserViewSet(viewsets.ModelViewSet):
         follow.delete()
         return Response('unfollowed')
 
+    # used to get all followers of a logged in user
+    @action(methods=['GET'], detail=False,permission_classes=[permissions.IsAuthenticated])
+    def getfollowers(self,request,pk=None):
+        userid=self.request.user.user.id
+        followee=Follow.objects.filter(followee=userid)
+        followserializer=FollowSerializer(followee,many=True)
+        return Response(followserializer.data)
 
+    #used to get all followers of other user
+
+    @action(methods=['GET'], detail=True,permission_classes=[permissions.IsAuthenticated])
+    def getotheruserfollowers(self,request,pk=None):
+        userid=pk
+        followee=Follow.objects.filter(followee=userid)
+        followserializer=FollowSerializer(followee,many=True)
+        return Response(followserializer.data)

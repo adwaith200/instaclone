@@ -52,7 +52,14 @@ export const authInit=(credentials,authType)=>{
             try{
                 const response=await axios.post('auth/registration/',credentials);
                 localStorage.setItem('token',response.data.key);
-                dispatch(authSucess(response.data.key))
+
+                const result=await axios.get('api/users/getloggedinprofile',
+                {
+                    headers:{
+                        "Authorization":'Token'+' '+response.data.key
+                } 
+            })
+                dispatch(authSucess(response.data.key,result.data.user.id))
             }catch(err){
                 console.log(err.response)
             }  

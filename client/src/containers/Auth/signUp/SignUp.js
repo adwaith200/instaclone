@@ -41,6 +41,7 @@ class SignUp extends PureComponent {
   onSubmitHandler=async(e)=>{
     e.preventDefault();
     this.props.onSubmitAuth(this.state.credentials);
+    // this.props.history.push('/profile')
   }
 
   render() {

@@ -1,14 +1,138 @@
 import React from 'react';
 import classes from './Profile.css';
 import {connect} from 'react-redux';
-import {Link,Redirect,withRouter} from 'react-router-dom';
+import {Link,withRouter} from 'react-router-dom';
 import Modal from '../../components/UI/Modal/Modal';
 import Post from '../../components/Post/Post';
+import axios from '../../axios';
+import Follower from '../../components/Followers/Follower';
 
 class Profile extends React.Component {
 
-    render(){
-        
+    state={
+        following:false,
+        followers:0,
+        myFollowers:0,
+        seeFollowers:false,
+        followersDetails:null
+    }
+
+    async componentDidMount(){
+        if(this.props.match.path==="/user-profile/:userId"){
+            console.log("userProfile");
+        try{
+            const response=await axios.get(`api/users/${this.props.match.params.userId*1}/getotheruserfollowers`,
+            {
+                headers:{
+                    "Authorization":`Token ${this.props.userKey}`
+                }
+            });
+            console.log(response) ;
+             const followers=response.data.map(data=>{
+                 console.log(data.follower.id)
+                 return data.follower.id
+             }) ;
+
+            
+
+             if(followers.includes(this.props.userId))
+             {
+                 this.setState({following:!this.state.following,followers:followers.length});
+             }
+
+            //  this.setState({followers});
+        }catch(err){
+            console.log(err.message)
+        }
+      }
+      else {
+          console.log("profile");
+
+        try{
+            const response=await axios.get(`api/users/getfollowers`,
+            {
+                headers:{
+                    "Authorization":`Token ${this.props.userKey}`
+                }
+            });
+            console.log(response) ;
+             const followers=response.data.map(data=>{
+                 console.log(data.follower.id)
+                 return data.follower.id
+             }) ;
+
+                 this.setState({followers:followers.length});
+
+            //  this.setState({followers});
+        }catch(err){
+            console.log(err.message)
+        }
+
+      }
+  }
+
+  followHandler=async(id)=>{
+      if(this.state.following===false){
+      try {
+          const response=await axios.post(`api/users/${id}/follow/`,{},{
+            headers:{
+                "Authorization":`Token ${this.props.userKey}`
+            }
+          });
+          console.log(response,"response");
+          console.log(this.state.following);
+          this.setState({following:!this.state.following,followers:this.state.followers+1});
+
+         
+          
+      }catch(err){
+          console.log(err.message)
+      }
+    }
+    else {
+        try {
+            const response=await axios.post(`api/users/${id}/unfollow/`,{},{
+              headers:{
+                  "Authorization":`Token ${this.props.userKey}`
+              }
+            });
+            console.log(response,"response");
+            console.log(this.state.following);
+            this.setState({following:!this.state.following,followers:this.state.followers-1});
+        }catch(err){
+            console.log(err.message)
+        }
+    }
+  }
+
+  getFollowers=async()=>{
+      if(this.props.match.path==="/user-profile/:userId"){
+          const response=await axios.get
+          (`api/users/${this.props.match.params.userId*1}/getotheruserfollowers`,{
+              
+            headers:{
+                "Authorization":`Token ${this.props.userKey}`
+            }
+          })
+          console.log(response);
+          this.setState({seeFollowers:!this.state.seeFollowers,followersDetails:response.data})
+
+      }
+      else {
+        const response=await axios.get
+        (`api/users/getfollowers`,{
+          headers:{
+              "Authorization":`Token ${this.props.userKey}`
+          }
+        })
+        console.log(response);
+        this.setState({seeFollowers:!this.state.seeFollowers,followersDetails:response.data})
+
+      }
+  }
+
+    render(){ 
+        console.log("render")       
     return (
        
         <div className={classes.profile_container}>
@@ -44,12 +168,23 @@ class Profile extends React.Component {
                             <div><Link to='/logout' className={classes.btn_logout}>Logout</Link></div>
                         </div>:
                         <div className={classes.buttons} style={{display:"flex",justifyContent:"center"}}>
-                        <div><Link to='/' className={classes.btn_editprofile}>Follow</Link></div>
+                        <div>
+                            <button to='/' className={classes.btn_follow} 
+                            onClick={()=>this.followHandler(this.props.match.params.userId*1)}>
+                            {this.state.following===true?"UnFollow":"Follow"}
+                            </button>
+                        </div>
                         </div>}
                     </div>
                     <div className={classes.social_details}>
                         <div className={classes.total_posts}>{this.props.state.posts?this.props.state.posts.length:0} posts</div>
-                        <div className={classes.total_followers}>{this.props.state.followers?this.props.state.followers:0} followers</div>
+                        <div className={classes.total_followers} onClick={this.getFollowers}>
+                         {this.state.seeFollowers===false?this.state.followers?`${this.state.followers} followers`:"0 followers" 
+                         :
+                        <Modal show>
+                             <Follower followers={this.state.followersDetails}/>
+                        </Modal>}
+                        </div>
                     </div>
                     {   this.props.getLoggedIn===true?
                         this.props.state.user.userBio?
@@ -83,7 +218,6 @@ class Profile extends React.Component {
                     )
                 }):null}
             </div>
-           {/* {this.props.match.params.userId!==this.props.userId?<Redirect to={`/user-profile/${this.props.match.params.userId}`} />:null} */}
         </div>
     )
     

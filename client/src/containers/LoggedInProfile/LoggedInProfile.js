@@ -39,7 +39,6 @@
                     }
                 );
 
-                console.log(response.data.user.id,"log in")
 
                 if(this._isMounted=true){
                 this.setState({...this.state,user:{...this.state.user,
@@ -50,7 +49,6 @@
                 }})
             }
 
-                console.log(this.state);
                 //getting user posts
                 const result=await axios.get(`api/users/${this.state.user.userId}/getprofilepostsandfollowers`);
                 const posts=result.data.posts;

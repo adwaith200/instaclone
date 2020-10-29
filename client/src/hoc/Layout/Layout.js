@@ -56,9 +56,9 @@ class Layout extends PureComponent {
                     searchChangeHandler={this.searchChangeHandler}/>
                 </header>
                 {this.state.search===true?<Modal show={this.state.show} closeModal={this.closeModal}>
-                    {this.state.users.map(user=>{
+                    {this.state.users.length!==0?this.state.users.map(user=>{
                         return <User user={user} closeModal={this.closeModal}/>
-                    })}
+                    }):<h1 style={{textAlign:"center"}}>NO USERS FOUND FOR THAT USERNAME</h1>}
                 </Modal>:null}
                 <main>
                     {this.props.children}
