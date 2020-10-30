@@ -196,6 +196,7 @@ class Profile extends React.Component {
                 <Post key={this.props.state.post.id} image={`${this.props.state.post.photo}`} 
                     profilePic={`${this.props.state.post.user.profilepic}`}
                     userName={this.props.state.post.user.username} 
+                    user_id={this.props.state.post.user.id}
                     comments={this.state.comments} 
                     num_likes={this.props.state.post.likes.length}
                     date={this.props.state.post.created_at} 

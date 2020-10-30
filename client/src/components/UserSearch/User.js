@@ -6,7 +6,7 @@ const User=(props)=> {
     return (
 
         <div>
-            <div className={classes.userSearch_container} key={props.user.id}>
+            <div className={classes.userSearch_container} >
                 <div className={classes.user_container} >
                     <div className={classes.pic_container}>
                         <img src={`${props.user.profilepic}`} 

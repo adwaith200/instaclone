@@ -60,7 +60,7 @@ class Post extends PureComponent {
                         <img src={this.props.profilePic} 
                         className={classes.user_image} />
                         <div>
-                            <Link to={`/user-profile/${this.props.user_id}`} className={classes.profile_link}>{this.props.userName}</Link>
+                            <Link to={this.props.user_id!==this.props.userId?`/user-profile/${this.props.user_id}`:'/profile'} className={classes.profile_link}>{this.props.userName}</Link>
                         </div>
                         <div>
                             {this.props.location}
@@ -86,6 +86,8 @@ class Post extends PureComponent {
 
                                     this.props.comments.map(comment=>{
                                         return <Comment username={comment.user.username}
+                                        user_id={comment.user.id}
+                                        my_id={comment.user.id}
                                         image={`http://127.0.0.1:8000${comment.user.profilepic}`} 
                                         text={comment.comment_text} 
                                         date={comment.created_at} 
@@ -102,9 +104,9 @@ class Post extends PureComponent {
                     </div>
                     <div className={classes.likes_date_container}>
                     <div onClick={this.props.liked}>
-                        {this.props.num_likes}<FontAwesomeIcon icon='heart' style={{marginLeft:"10px"}} />
+                        {this.props.num_likes}<FontAwesomeIcon icon='heart' style={{marginLeft:"10px"}} /> Like(s)
                     </div>
-                    <div>Caption:{this.props.caption}</div>
+                    <div>Caption : {this.props.caption}</div>
                     </div>
                     {/* <div className={post_caption}>Captions</div> */}
                     <div className={classes.comment_input}>
@@ -132,7 +134,8 @@ class Post extends PureComponent {
 const mapStateToProps=(state)=>{
     return {
         userKey:state.auth.userKey,
-        post:state.post.posts
+        post:state.post.posts,
+        userId:state.auth.userId
     }
 }
 

@@ -9,8 +9,10 @@ const NavigationItems=(props)=> {
         <header>
               <nav className={classes.header}>
                     <h3>Socioholic</h3>
-                    <input type='text' placeholder="search" className={classes.search_bar} 
-                    defaultValue="" onKeyPress={props.searchChangeHandler}/>
+                    
+                        <input type='text' placeholder="search" className={classes.search_bar} 
+                        defaultValue="" onKeyPress={props.searchChangeHandler}/>
+                    
                     <div className={classes.header_nav}>
                         <Link to='/' ><FontAwesomeIcon icon='home' className={classes.icon_styling}/></Link>
                         <Link to='/explore' ><FontAwesomeIcon icon='compass' className={classes.icon_styling}/></Link>

@@ -1,5 +1,7 @@
 import React from 'react';
-import classes from './Comment.css'
+import { Router } from 'react-router-dom';
+import classes from './Comment.css';
+import {Link} from 'react-router-dom';
 
 const Comment=(props)=> {
     console.log(props.modalImage,"modal")
@@ -12,10 +14,9 @@ const Comment=(props)=> {
                         <img src={`${props.image}` } 
                         className={classes.user_img}/>
                     </div>
-                    <div className={classes.username}>{props.username}</div>
+                    <Link to={props.user_id!==props.my_id?`/user-profile/${props.user_id}`:'/profile'} className={classes.username}>{props.username}</Link>
                 </div>
                 <div className={classes.comment_text}>{props.text}</div>
-                <div className={classes.date}> 10 th</div>
             </div>
         </div>
         

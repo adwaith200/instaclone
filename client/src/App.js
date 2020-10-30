@@ -15,6 +15,7 @@ import * as actions from './store/actions/indexActions';
 import UploadPost from './containers/Profile/updateProfile/uploadPosts/UploadPosts';
 import Logout from './containers/Auth/Logout/Logout';
 import Blank from './components/Blank/Blank';
+import Tags from './containers/Tags/Tags';
 
 class App extends Component {
 
@@ -52,6 +53,7 @@ class App extends Component {
           <Route path='/upload-post' component={UploadPost} /> 
           <Route path='/logout' component={Logout} /> 
           <Route path='/blank/:userId' component={() =><Blank userId={this.props.userId}/>} />
+          <Route path='/tags' component={Tags} />
           <Redirect to='/' />
         </Switch> 
         )

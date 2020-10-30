@@ -28,9 +28,13 @@
   border-radius: 50%;
 }
 
-/* .username {
+.username {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
 }
 
+/*
 .comment_text {
 }
 

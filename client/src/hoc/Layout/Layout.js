@@ -2,9 +2,10 @@ import React, { PureComponent } from 'react'
 import classes from './Layout.css';
 import NavigationItems from '../../components/Navigation/NavigationItems/NavigationItems';
 import {connect} from 'react-redux';
+import {withRouter,Redirect} from 'react-router-dom';
 import axios from "../../axios";
 import Modal from "../../components/UI/Modal/Modal";
-import User from '../../components/UserSearch/User'
+import User from '../../components/UserSearch/User';
 
 class Layout extends PureComponent {
 
@@ -13,12 +14,13 @@ class Layout extends PureComponent {
         search:false,
         show:false,
         users:null,
-        footerSearch:false
+        footerSearch:false,
+        tags:false,
+        tagDetails:null,
 
     }
 
     closeModal=()=>{
-        console.log("Closing...")
         this.setState({show:!this.state.show})
     }
 
@@ -41,10 +43,27 @@ class Layout extends PureComponent {
 
         searchChangeHandler=async(e)=>{
             if(e.key==='Enter')
-           {    
+           {   
+               if(e.target.value!==''){
+              if(e.target.value.split("").includes('#')){
+                  const hashedTagname=e.target.value.split("");
+                  const tagname=hashedTagname.slice(1,hashedTagname.length).join("");
+                  const response=await axios.get(`/api/tags?tagname=${tagname}`);
+                  if(response.data.length===0){
+                      alert("The tag u r finding doesn't exist :( Create one by uploading a post");
+                      window.location.reload();
+                  }
+                  else {
+                  console.log(response.data);
+                  this.setState({tags:true,tagDetails:response.data})
+                  }
+              }
+              else{
                const response=await axios.get(`api/users?search=${e.target.value}`);
                this.setState({search:true,users:response.data,show:true});
+              }
            }
+        }
            
         }
 
@@ -53,6 +72,7 @@ class Layout extends PureComponent {
         {
             this.setProfilePic(this.props.userId);
         }
+        console.log("render",this.state.tagDetails)
         return (
             <div >
                 <header>
@@ -66,9 +86,16 @@ class Layout extends PureComponent {
                 {this.state.search===true?
                 <Modal show={this.state.show} closeModal={this.closeModal}>
                     {this.state.users.length!==0?this.state.users.map(user=>{
-                        return <User user={user} closeModal={this.closeModal}/>
+                        return <User user={user} closeModal={this.closeModal} key={user.id}/>
                     }):<h1 style={{textAlign:"center"}}>NO USERS FOUND FOR THAT USERNAME</h1>}
                 </Modal>:null}
+                {this.state.tags===true?
+                <Redirect 
+                    to={{
+                        pathname:`/blank/${this.state.tagDetails[0].id}`,
+                        tagDetails:this.state.tagDetails,
+                        tags:true
+                    }}/>:null}
                 <main>
                     {this.props.children}
                 </main>
@@ -85,4 +112,4 @@ const mapStateToProps=(state)=>{
     }
 }
 
-export default connect(mapStateToProps,null)(Layout);
+export default connect(mapStateToProps,null)(withRouter(Layout));
