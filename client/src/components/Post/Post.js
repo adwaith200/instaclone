@@ -11,12 +11,17 @@ import * as actions from '../../store/actions/indexActions';
 class Post extends PureComponent {
 
     state={
-        comment:null
+        comment:null,
+        comments:[]
     }
 
+    async componentDidMount(){
+        const result=await axios.get(`api/posts/${this.props.post_id}`);
+        const comments=result.data.comments
+        this.setState({comments:comments});
+    }
 
     commentChangedHandler=(e)=>{
-
         this.setState({comment:e.target.value})
     }
 
@@ -30,15 +35,20 @@ class Post extends PureComponent {
                 "Authorization":'Token'+' '+this.props.userKey
         } 
         })
-        this.props.fetchPosts(this.props.userKey);
-
-    }catch(err){
-        console.log(err.response);
-    }
+    
+    
+        const result=await axios.get(`api/posts/${id}`);
+        const comments=result.data.comments
+        this.setState({comments:comments});
+    
+        }catch(err){
+            console.log(err.response);
+        }
     }
     
     render(){
     let comments;
+    console.log(this.props.modalImage,"modal of post")
     return (
         <div>
             <div className={classes.post_container}>
@@ -52,28 +62,37 @@ class Post extends PureComponent {
                         <div>
                             <Link to={`/user-profile/${this.props.user_id}`} className={classes.profile_link}>{this.props.userName}</Link>
                         </div>
+                        <div>
+                            {this.props.location}
+                        </div>
                     </div>
                     <div className={classes.comments_container}>
                         <div>
-                            {this.props.comments.length===0?
+                            {this.props.comments.length===0 && this.state.comments.length===0?
                             <h3 style={{textAlign:"center",fontWeight:"bold"}}>Be the first to comment</h3>:
                                 comments=this.props.showComments?
                                 <div>
                                     <button onClick={this.props.showCommentHandler}>
                                         Hide Comments
                                     </button>
-                                    {this.props.comments.map(comment=>{
+                                    {this.props.modalImage===true?
+                                    this.state.comments.map(comment=>{
                                          return <Comment username={comment.user.username}
-                                         image={comment.user.profilepic} 
+                                         image={`${comment.user.profilepic}`} 
                                          text={comment.comment_text} 
                                          date={comment.created_at} 
-                                         key={comment.id}/>
-                                    })}
-                                    {/* <Comment />
-                                    <Comment />
-                                    <Comment />
-                                    <Comment />
-                                    <Comment /> */}
+                                         key={comment.id} modalImage={this.props.modalImage}/>
+                                    }) :
+
+                                    this.props.comments.map(comment=>{
+                                        return <Comment username={comment.user.username}
+                                        image={`http://127.0.0.1:8000${comment.user.profilepic}`} 
+                                        text={comment.comment_text} 
+                                        date={comment.created_at} 
+                                        key={comment.id} modalImage={this.props.modalImage}/>
+                                   })
+
+                                    }
                                 </div>:
                                 <button onClick={this.props.showCommentHandler}>
                                     show Comments
@@ -85,13 +104,22 @@ class Post extends PureComponent {
                     <div onClick={this.props.liked}>
                         {this.props.num_likes}<FontAwesomeIcon icon='heart' style={{marginLeft:"10px"}} />
                     </div>
-                    <div>{this.props.date}</div>
+                    <div>Caption:{this.props.caption}</div>
                     </div>
                     {/* <div className={post_caption}>Captions</div> */}
                     <div className={classes.comment_input}>
                         <input type="text" className={classes.comment_add}
-                         placeholder="add a comment" defaultValue="" onChange={this.commentChangedHandler}/>
-                        <button onClick={()=>this.postCommentHandler(this.props.post_id)}>Post</button>
+                         placeholder="add a comment" defaultValue="" onChange={this.props.modalImage?this.commentChangedHandler:this.props.commentChangedHandler}/>
+                        <button 
+                            onClick={()=>
+                            {
+                                return this.props.modalImage?
+                                this.postCommentHandler(this.props.post_id):
+                                this.props.postCommentHandler(this.props.post_id)
+                            }
+                            }>
+                            Post
+                        </button>
                     </div>
                     {/* <Redirect to='/' /> */}
                 </div>

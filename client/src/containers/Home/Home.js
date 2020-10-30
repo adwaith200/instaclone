@@ -14,7 +14,8 @@ class Home extends PureComponent {
         loading:false,
         userId:null,
         liked:false,
-        showComments:false
+        showComments:false,
+        comment:null
     }
 
     async componentDidMount(){
@@ -33,7 +34,6 @@ class Home extends PureComponent {
     }
 
     likedHandler=async(id)=>{
-       
         try{
             const response=await axios.post(`api/posts/${id}/likepost/`,null,
             {
@@ -50,8 +50,38 @@ class Home extends PureComponent {
     }
 
     showCommentsHandler=()=>{
+        console.log("show comments")
         this.setState({showComments:!this.state.showComments})
     }
+
+
+
+    commentChangedHandler=(e)=>{
+
+        this.setState({comment:e.target.value})
+    }
+    
+    postCommentHandler=async(id)=>{
+        try{
+            const response=await axios.post('api/comments/',{
+            "comment_text":this.state.comment,
+            "post_id":id
+        },{
+            headers:{
+                "Authorization":'Token'+' '+this.props.userKey
+        } 
+        })
+        this.props.fetchPosts(this.props.userKey);
+        // if(this.props.modal===true){
+        //     window.location.reload();
+        //     this.props.history.push('/profile');
+        // }
+    
+    }catch(err){
+        console.log(err.response);
+    }
+    }
+
 
     render() {
         let posts=<Spinner />;
@@ -69,11 +99,14 @@ class Home extends PureComponent {
                     return <Post key={post.id} image={`http://localhost:8000${post.photo}`} 
                     profilePic={`http://localhost:8000${post.user.profilepic}`}
                     userName={post.user.username} comments={post.comments} num_likes={post.likes.length}
-                    date={post.created_at} liked={()=>this.likedHandler(post.id)}
+                    location={post.location} liked={()=>this.likedHandler(post.id)}
+                    caption={post.caption}
                     showComments={this.state.showComments} 
                     showCommentHandler={this.showCommentsHandler}
                     post_id={post.id}
-                    user_id={post.user.id}/>
+                    user_id={post.user.id} modalImage={false}
+                    commentChangedHandler={this.commentChangedHandler}
+                    postCommentHandler={this.postCommentHandler}/>
                 })
             }
         }

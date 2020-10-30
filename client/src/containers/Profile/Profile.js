@@ -12,10 +12,15 @@ class Profile extends React.Component {
 
     state={
         following:false,
+        showComments:false,
         followers:0,
         myFollowers:0,
         seeFollowers:false,
-        followersDetails:null
+        followersDetails:null,
+        profilePosts:null,
+        comment:null,
+        comments:[]
+
     }
 
     async componentDidMount(){
@@ -48,7 +53,6 @@ class Profile extends React.Component {
       }
       else {
           console.log("profile");
-
         try{
             const response=await axios.get(`api/users/getfollowers`,
             {
@@ -62,7 +66,10 @@ class Profile extends React.Component {
                  return data.follower.id
              }) ;
 
-                 this.setState({followers:followers.length});
+            // const result=await axios.get(`api/posts/${id}`);
+            // const comments=result.data.comments
+
+            this.setState({followers:followers.length});
 
             //  this.setState({followers});
         }catch(err){
@@ -70,6 +77,8 @@ class Profile extends React.Component {
         }
 
       }
+
+      
   }
 
   followHandler=async(id)=>{
@@ -133,6 +142,46 @@ class Profile extends React.Component {
   }
 
 
+  commentChangedHandler=(e)=>{
+    this.setState({comment:e.target.value})
+}
+
+    postCommentHandler=async(id)=>{
+    try{
+        const response=await axios.post('api/comments/',{
+        "comment_text":this.state.comment,
+        "post_id":id
+    },{
+        headers:{
+            "Authorization":'Token'+' '+this.props.userKey
+    } 
+    })
+
+
+    const result=await axios.get(`api/posts/${id}`);
+    const comments=result.data.comments
+    this.setState({comments:comments});
+    // if(this.props.modal===true){
+    //     window.location.reload();
+    //     this.props.history.push('/profile');
+    // }
+
+    }catch(err){
+        console.log(err.response);
+    }
+}
+
+  deleteCommentHandler=async(id)=>{
+      const response=await axios.delete(`api/comments/${id}`);
+      console.log(response);
+      }
+
+
+  showCommentsHandler=()=>{
+      console.log("Show it",this.state.showComments)
+    this.setState({showComments:!this.state.showComments})
+}
+
   deletePost=async(postId)=>{
       const response=await axios.delete(`api/posts/${postId}`)
   }
@@ -146,13 +195,21 @@ class Profile extends React.Component {
             <Modal show={this.props.state.showModal} closeModal={()=>this.props.showModalHandler(null)}>
                 <Post key={this.props.state.post.id} image={`${this.props.state.post.photo}`} 
                     profilePic={`${this.props.state.post.user.profilepic}`}
-                    userName={this.props.state.post.user.username} comments={this.props.state.post.comments} 
+                    userName={this.props.state.post.user.username} 
+                    comments={this.state.comments} 
                     num_likes={this.props.state.post.likes.length}
-                    date={this.props.state.post.created_at} liked={()=>this.likedHandler(this.props.state.post.id)}
-                    showComments={this.props.state.showComments} 
+                    date={this.props.state.post.created_at} 
+                    liked={()=>this.likedHandler(this.props.state.post.id)}
+                    showComments={this.state.showComments} 
                     showCommentHandler={this.showCommentsHandler}
-                    post_id={this.props.state.post.id}/>
-            </Modal>:
+                    post_id={this.props.state.post.id} 
+                    location={this.props.state.post.location} 
+                    caption={this.props.state.post.caption} 
+                    modalImage={true}
+                    deleteComment={this.deleteCommentHandler}
+                    commentChangedHandler={this.commentChangedHandler}
+                    postCommentHandler={this.postCommentHandler}/>
+            </Modal>:   
             null}
             <h1 className={classes.heading}>Profile</h1>
             <div className={classes.profile_details}>

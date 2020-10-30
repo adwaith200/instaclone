@@ -2,13 +2,14 @@ import React from 'react';
 import classes from './Comment.css'
 
 const Comment=(props)=> {
+    console.log(props.modalImage,"modal")
     return (
 
         <div>
             <div className={classes.comment_container}>
                 <div className={classes.user_container} >
                     <div className={classes.pic_container}>
-                        <img src={`http://localhost:8000${props.image}` } 
+                        <img src={`${props.image}` } 
                         className={classes.user_img}/>
                     </div>
                     <div className={classes.username}>{props.username}</div>
