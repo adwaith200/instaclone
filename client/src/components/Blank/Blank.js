@@ -4,7 +4,7 @@ import {Redirect,withRouter} from 'react-router-dom';
 class Blank extends React.PureComponent {
     render(){
         console.log(this.props.location)
-        console.log(this.props.userId,this.props.match.params.userId);
+        console.log(this.props.userId,this.props.match.params.userId,this.props.userId!==this.props.match.params.userId*1 ,"atharva");
     return (
         <div>
             {!this.props.location.tagDetails?
