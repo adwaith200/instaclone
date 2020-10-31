@@ -4,13 +4,13 @@
     // import {Link} from 'react-router-dom';
     // import Modal from '../../components/UI/Modal/Modal';
     // import Post from '../../components/Post/Post';
-    import Profile from '../Profile/Profile'
+    import Profile from '../Profile/Profile';
+    import * as actions from '../../store/actions/indexActions'
     
     class LoggedInProfile extends React.Component {
 
         _isMounted = false;
 
-    
         state={
             user:{
                 userId:null,
@@ -22,8 +22,27 @@
             followers:null,
             showModal:false,
             postId:null,
-            post:null
+            post:null,
+            liked:false,
+            num_likes:null,
+            likedPostId:null
     
+        }
+
+        likedHandler=async(id)=>{
+            try{
+                const response=await axios.post(`api/posts/${id}/likepost/`,null,
+                {
+                    headers:{
+                            "Authorization":'Token'+' '+this.props.userKey
+                    } 
+                });  
+                const result=await axios.get(`api/posts/${id}`);      
+                this.setState({liked:true,num_likes:result.data.likes.length,likedPostId:id})
+            }catch(err){
+                console.log(err.response)
+            }
+            
         }
     
         async componentDidMount(){
@@ -92,7 +111,9 @@
     
         render(){
             
-        return <Profile state={this.state} deletePost={this.deletePost} showModalHandler={this.showModalHandler} getLoggedIn/>
+        return <Profile state={this.state} deletePost={this.deletePost} 
+        showModalHandler={this.showModalHandler} getLoggedIn likedHandler={this.likedHandler}
+        num_likes={this.state.num_likes&&this.state.likedPostId!==null?this.state.num_likes:null}/>
             
         }
     }
@@ -106,7 +127,12 @@
     
     }
     
+    const mapDispatchToProps=(dispatch)=>{
+        return {
+            fetchPosts:(userKey)=>dispatch(actions.fetchPosts(userKey))
+        }
+    }
     
     
-    export default connect(mapStateToProps,null)(LoggedInProfile);
+    export default connect(mapStateToProps,mapDispatchToProps)(LoggedInProfile);
     

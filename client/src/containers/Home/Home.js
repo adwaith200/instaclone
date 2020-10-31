@@ -71,10 +71,7 @@ class Home extends PureComponent {
         } 
         })
         this.props.fetchPosts(this.props.userKey);
-        // if(this.props.modal===true){
-        //     window.location.reload();
-        //     this.props.history.push('/profile');
-        // }
+       
     
     }catch(err){
         console.log(err.response);

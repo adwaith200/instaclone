@@ -185,9 +185,9 @@ class Profile extends React.Component {
                     userName={this.props.state.post.user.username} 
                     user_id={this.props.state.post.user.id}
                     comments={this.state.comments} 
-                    num_likes={this.props.state.post.likes.length}
+                    num_likes={!this.props.num_likes?this.props.num_likes:this.props.state.post.likes.length}
                     date={this.props.state.post.created_at} 
-                    liked={()=>this.likedHandler(this.props.state.post.id)}
+                    liked={()=>this.props.likedHandler(this.props.state.post.id)}
                     showComments={this.state.showComments} 
                     showCommentHandler={this.showCommentsHandler}
                     post_id={this.props.state.post.id} 

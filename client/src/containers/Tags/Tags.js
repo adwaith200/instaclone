@@ -21,7 +21,6 @@ class  Tags extends React.PureComponent {
     }
 
     render(){
-        console.log(this.state.tagname);
     return (
         <div className={classes.tag_container}>
             <h1 className={classes.tagname}>#{this.state.tagname}</h1>

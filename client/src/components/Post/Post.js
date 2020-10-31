@@ -12,13 +12,15 @@ class Post extends PureComponent {
 
     state={
         comment:null,
-        comments:[]
+        comments:[],
+        num_likes:null
     }
 
     async componentDidMount(){
         const result=await axios.get(`api/posts/${this.props.post_id}`);
-        const comments=result.data.comments
-        this.setState({comments:comments});
+        const comments=result.data.comments;
+        const likes=result.data.likes.length   
+        this.setState({comments:comments,num_likes:likes});
     }
 
     commentChangedHandler=(e)=>{
@@ -35,8 +37,7 @@ class Post extends PureComponent {
                 "Authorization":'Token'+' '+this.props.userKey
         } 
         })
-    
-    
+
         const result=await axios.get(`api/posts/${id}`);
         const comments=result.data.comments
         this.setState({comments:comments});
@@ -47,6 +48,9 @@ class Post extends PureComponent {
     }
     
     render(){
+    // console.log(this.state.num_likes,this.props.num_likes)
+    // likes_count=this.props.num_likes===null?this.state.num_likes:this.props.num_likes;
+    // console.log(likes_count,"likes");
     let comments;
     return (
         <div>
@@ -103,14 +107,15 @@ class Post extends PureComponent {
                     </div>
                     <div className={classes.likes_date_container}>
                     <div onClick={this.props.liked}>
-                        {this.props.num_likes}<FontAwesomeIcon icon='heart' style={{marginLeft:"10px"}} /> Like(s)
+                   { this.props.num_likes===null?this.state.num_likes:this.props.num_likes} <FontAwesomeIcon icon='heart' style={{marginLeft:"10px"}} /> Like(s)
                     </div>
                     <div>Caption : {this.props.caption}</div>
                     </div>
                     {/* <div className={post_caption}>Captions</div> */}
                     <div className={classes.comment_input}>
                         <input type="text" className={classes.comment_add}
-                         placeholder="add a comment" defaultValue="" onChange={this.props.modalImage?this.commentChangedHandler:this.props.commentChangedHandler}/>
+                         placeholder="add a comment" defaultValue="" 
+                         onChange={this.props.modalImage?this.commentChangedHandler:this.props.commentChangedHandler}/>
                         <button 
                             onClick={()=>
                             {
@@ -122,7 +127,6 @@ class Post extends PureComponent {
                             Post
                         </button>
                     </div>
-                    {/* <Redirect to='/' /> */}
                 </div>
             </div>
         </div>)
