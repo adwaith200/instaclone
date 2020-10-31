@@ -25,7 +25,6 @@ class Profile extends React.Component {
 
     async componentDidMount(){
         if(this.props.match.path==="/user-profile/:userId"){
-            console.log("userProfile");
         try{
             const response=await axios.get(`api/users/${this.props.match.params.userId*1}/getotheruserfollowers`,
             {
@@ -33,9 +32,7 @@ class Profile extends React.Component {
                     "Authorization":`Token ${this.props.userKey}`
                 }
             });
-            console.log(response) ;
              const followers=response.data.map(data=>{
-                 console.log(data.follower.id)
                  return data.follower.id
              }) ;
 
@@ -52,7 +49,6 @@ class Profile extends React.Component {
         }
       }
       else {
-          console.log("profile");
         try{
             const response=await axios.get(`api/users/getfollowers`,
             {
@@ -60,9 +56,7 @@ class Profile extends React.Component {
                     "Authorization":`Token ${this.props.userKey}`
                 }
             });
-            console.log(response) ;
              const followers=response.data.map(data=>{
-                 console.log(data.follower.id)
                  return data.follower.id
              }) ;
 
@@ -89,8 +83,7 @@ class Profile extends React.Component {
                 "Authorization":`Token ${this.props.userKey}`
             }
           });
-          console.log(response,"response");
-          console.log(this.state.following);
+        
           this.setState({following:!this.state.following,followers:this.state.followers+1});
 
          
@@ -106,8 +99,7 @@ class Profile extends React.Component {
                   "Authorization":`Token ${this.props.userKey}`
               }
             });
-            console.log(response,"response");
-            console.log(this.state.following);
+          
             this.setState({following:!this.state.following,followers:this.state.followers-1});
         }catch(err){
             console.log(err.message)
@@ -124,7 +116,6 @@ class Profile extends React.Component {
                 "Authorization":`Token ${this.props.userKey}`
             }
           })
-          console.log(response);
           this.setState({seeFollowers:!this.state.seeFollowers,followersDetails:response.data})
 
       }
@@ -135,7 +126,6 @@ class Profile extends React.Component {
               "Authorization":`Token ${this.props.userKey}`
           }
         })
-        console.log(response);
         this.setState({seeFollowers:!this.state.seeFollowers,followersDetails:response.data})
 
       }
@@ -173,12 +163,10 @@ class Profile extends React.Component {
 
   deleteCommentHandler=async(id)=>{
       const response=await axios.delete(`api/comments/${id}`);
-      console.log(response);
       }
 
 
   showCommentsHandler=()=>{
-      console.log("Show it",this.state.showComments)
     this.setState({showComments:!this.state.showComments})
 }
 
@@ -187,7 +175,6 @@ class Profile extends React.Component {
   }
 
     render(){ 
-        console.log("render")       
     return (
        
         <div className={classes.profile_container}>

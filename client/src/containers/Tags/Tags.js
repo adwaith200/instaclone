@@ -12,7 +12,6 @@ class  Tags extends React.PureComponent {
 
     componentDidMount(){
         if(this.props.location.tagDetails!==null){
-            console.log(this.props.location,"tag details")
             this.setState({
                 tagname:this.props.location.tagDetails[0].tagname,
                 taggedPosts:this.props.location.tagDetails[0].posts,

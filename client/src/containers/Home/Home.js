@@ -50,7 +50,6 @@ class Home extends PureComponent {
     }
 
     showCommentsHandler=()=>{
-        console.log("show comments")
         this.setState({showComments:!this.state.showComments})
     }
 

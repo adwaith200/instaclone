@@ -73,7 +73,6 @@
                     "Authorization":'Token'+' '+this.props.userKey
             } 
         });
-            console.log(response,"deleted");
             const result=await axios.get
             (`api/users/${this.state.user.userId}/getprofilepostsandfollowers`);
             this.setState({...this.state,posts:result.data.posts});

@@ -14,7 +14,6 @@ class Explore extends PureComponent {
     async componentDidMount(){
             try{
                 const response=await axios.get('api/posts/');
-                console.log(response.data);
                 this.setState({posts:response.data})
 
             }catch(err){

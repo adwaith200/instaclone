@@ -4,7 +4,6 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Link} from 'react-router-dom';
 
 const NavigationItems=(props)=> {
-    console.log(props.footerSearch);
     return (
         <header>
               <nav className={classes.header}>

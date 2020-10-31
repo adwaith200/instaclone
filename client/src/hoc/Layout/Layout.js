@@ -54,7 +54,6 @@ class Layout extends PureComponent {
                       window.location.reload();
                   }
                   else {
-                  console.log(response.data);
                   this.setState({tags:true,tagDetails:response.data})
                   }
               }
@@ -72,7 +71,6 @@ class Layout extends PureComponent {
         {
             this.setProfilePic(this.props.userId);
         }
-        console.log("render",this.state.tagDetails)
         return (
             <div >
                 <header>

@@ -4,7 +4,6 @@ import classes from './Comment.css';
 import {Link} from 'react-router-dom';
 
 const Comment=(props)=> {
-    console.log(props.modalImage,"modal")
     return (
 
         <div>

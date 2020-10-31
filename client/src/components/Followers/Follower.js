@@ -3,7 +3,6 @@ import classes from './Follower.css';
 import {Link} from 'react-router-dom';
 
 const Followers=(props)=> {
-    console.log(props);
     return (
         <div>
             {props.followers.length!==0?

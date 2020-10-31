@@ -48,7 +48,6 @@ class Post extends PureComponent {
     
     render(){
     let comments;
-    console.log(this.props.modalImage,"modal of post")
     return (
         <div>
             <div className={classes.post_container}>

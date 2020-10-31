@@ -24,7 +24,7 @@ export const fetchPosts=(userKey)=>{
             dispatch(setPosts(posts))
 
         }catch(err){
-            console.log(err.msg)
+            console.log(err.response)
         }
     }
 }
