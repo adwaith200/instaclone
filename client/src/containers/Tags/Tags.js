@@ -5,9 +5,20 @@ import {withRouter,Link} from 'react-router-dom';
 class  Tags extends React.PureComponent {
 
     state={
-        tagname:this.props.location.tagDetails[0].tagname,
-        taggedPosts:this.props.location.tagDetails[0].posts,
+        tagname:null,
+        taggedPosts:null,
         username:null
+    }
+
+    componentDidMount(){
+        if(this.props.location.tagDetails!==null){
+            console.log(this.props.location,"tag details")
+            this.setState({
+                tagname:this.props.location.tagDetails[0].tagname,
+                taggedPosts:this.props.location.tagDetails[0].posts,
+                username:null
+            })
+        }
     }
 
     render(){
@@ -15,7 +26,7 @@ class  Tags extends React.PureComponent {
     return (
         <div className={classes.tag_container}>
             <h1 className={classes.tagname}>#{this.state.tagname}</h1>
-            {this.state.taggedPosts.length!==0?
+            {this.state.taggedPosts!==null && this.state.taggedPosts.length!==0?
             <div className={classes.tagged_posts}>
                 {this.state.taggedPosts.map(post=>{
                     return (

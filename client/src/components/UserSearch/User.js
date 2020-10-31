@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './User.css';
-import {Link} from 'react-router-dom';
+import {Link,Redirect} from 'react-router-dom';
 
 const User=(props)=> {
     return (
@@ -12,7 +12,7 @@ const User=(props)=> {
                         <img src={`${props.user.profilepic}`} 
                         className={classes.user_img}/>
                     </div>
-                  <Link to={`/blank/${props.user.id}`} className={classes.username} onClick={props.closeModal}>{props.user.username}</Link>
+                  <Link to={`/user-profile/${props.user.id}`} className={classes.username} onClick={props.closeModal}>{props.user.username}</Link>
                 </div>
                 {props.user.bio ? <div className={classes.comment_text}>{props.user.bio}</div>:null}
             </div>
