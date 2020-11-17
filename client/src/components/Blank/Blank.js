@@ -3,6 +3,7 @@ import {Redirect,withRouter} from 'react-router-dom';
 
 class Blank extends React.PureComponent {
     render(){
+        console.log("Blank")
     return (
         <div>
             {!this.props.location.tagDetails?

@@ -24,7 +24,9 @@ class Profile extends React.Component {
     }
 
     async componentDidMount(){
+        console.log("Component profile mounted")
         if(this.props.match.path==="/user-profile/:userId"){
+            console.log("Component user profile mounted")
         try{
             const response=await axios.get(`api/users/${this.props.match.params.userId*1}/getotheruserfollowers`,
             {
@@ -36,14 +38,15 @@ class Profile extends React.Component {
                  return data.follower.id
              }) ;
 
-            
 
              if(followers.includes(this.props.userId))
-             {
+             {  
                  this.setState({following:!this.state.following,followers:followers.length});
              }
+             else{
+                 this.setState({followers:followers.length})
+             }
 
-            //  this.setState({followers});
         }catch(err){
             console.log(err.message)
         }
@@ -229,13 +232,13 @@ class Profile extends React.Component {
                     </div>
                     <div className={classes.social_details}>
                         <div className={classes.total_posts}>{this.props.state.posts?this.props.state.posts.length:0} posts</div>
-                        <div className={classes.total_followers} onClick={this.getFollowers}>
-                         {this.state.seeFollowers===false?this.state.followers?`${this.state.followers} followers`:"0 followers" 
-                         :
-                        <Modal show>
-                             <Follower followers={this.state.followersDetails}/>
-                        </Modal>}
-                        </div>
+                            <div className={classes.total_followers} onClick={this.getFollowers}>
+                                {this.state.seeFollowers===false?`${this.state.followers} followers` 
+                                :
+                                <Modal show>
+                                    <Follower followers={this.state.followersDetails}/>
+                                </Modal>}
+                            </div>
                     </div>
                     {   this.props.getLoggedIn===true?
                         this.props.state.user.userBio?
