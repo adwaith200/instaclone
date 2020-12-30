@@ -45,6 +45,7 @@ export const authInit=(credentials,authType)=>{
             dispatch(authSucess(response.data.key,result.data.user.id))
 
             }catch(err){
+                alert(err.response.data.non_field_errors[0])
                 console.log(err.response)
             }
         }
@@ -61,6 +62,21 @@ export const authInit=(credentials,authType)=>{
             })
                 dispatch(authSucess(response.data.key,result.data.user.id))
             }catch(err){
+                if(err.response.data.username){
+                    alert(err.response.data.username[0])
+                }
+                if(err.response.data.email){
+                    alert(err.response.data.email[0])
+                }
+                if(err.response.data.non_field_errors){
+                    alert(err.response.data.non_field_errors[0])
+                }
+                if(err.response.data.password1[0]){
+                    alert(err.response.data.password1[0])
+                }
+                if(err.response.data.password1[1]){
+                    alert(err.response.data.password1[1])
+                }
                 console.log(err.response)
             }  
         }
