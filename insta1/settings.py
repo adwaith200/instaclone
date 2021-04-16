@@ -80,7 +80,7 @@ ROOT_URLCONF = 'insta1.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': [os.path.join(BASE_DIR,'build')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -154,5 +154,7 @@ MEDIA_ROOT=os.path.join(BASE_DIR,'imgs')
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
-    "http://127.0.0.1:9000"
+    "http://127.0.0.1:9000",
+    "http://127.0.0.1:8000",
+    "http://127.0.0.1:3000"
 ]
